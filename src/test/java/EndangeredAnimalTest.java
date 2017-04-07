@@ -57,7 +57,9 @@ public class EndangeredAnimalTest {
     firstEndangeredAnimal.save();
     EndangeredAnimal secondEndangeredAnimal = new EndangeredAnimal("Badger", "Okay", "Adult");
     secondEndangeredAnimal.save();
-    assertEquals(EndangeredAnimal.find(secondEndangeredAnimal.getId()), secondEndangeredAnimal);
+    int secondEndangeredAnimalId = secondEndangeredAnimal.getId();
+    System.out.println(secondEndangeredAnimalId);
+    assertEquals(EndangeredAnimal.find(secondEndangeredAnimalId), secondEndangeredAnimal);
   }
 
   @Test

@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Animal implements DatabaseManagement{
-  public String name;
-  public int id;
+  private String name;
+  private int id;
 
   public Animal(String name) {
     this.name = name;
@@ -31,7 +31,7 @@ public class Animal implements DatabaseManagement{
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO animals (name) VALUES (:name);";
+      String sql = "INSERT INTO animals (name, endangered) VALUES (:name, false);";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", this.name)
         .executeUpdate()
@@ -41,7 +41,7 @@ public class Animal implements DatabaseManagement{
 
   public static List<Animal> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM animals;";
+      String sql = "SELECT id, name FROM animals WHERE endangered = false;";
       return con.createQuery(sql)
         .executeAndFetch(Animal.class);
     }
@@ -49,7 +49,7 @@ public class Animal implements DatabaseManagement{
 
   public static Animal find(int id) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM animals WHERE id=:id;";
+      String sql = "SELECT id, name FROM animals WHERE id=:id;";
       Animal animal = con.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetchFirst(Animal.class);
