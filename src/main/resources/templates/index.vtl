@@ -5,11 +5,11 @@
 
 <h3> Report Non-Endangered Animal Sighting </h3>
 <form action="/sighting" method="post">
-  #if($animals.size() >= 0)
+  #if($regularAnimals.size() >= 0)
     <label>Select Animal</label>
     <select name="animalSelected">
-      #foreach($animal in $animals)
-        <option value="$animal.getId()">$animal.getName()</option>
+      #foreach($regularAnimal in $regularAnimals)
+        <option value="$regularAnimal.getId()">$regularAnimal.getName()</option>
       #end
     </select>
 
@@ -57,13 +57,13 @@
 #end
 
 <h3>All Animals & Sightings</h3>
-#if ($animals.size() == 0)
+#if ($regularAnimals.size() == 0)
   <a href="/animal/new">Add Animal to Database to Report a Sighting</a>
 #else
-  #foreach ($animal in $animals)
-    <a href="/animal/$animal.getId()" class="thumbnail">
-      <h4>$animal.getName()</h4>
-      <h4>$animal.getSightings().size() Reported Sighting(s)</h4>
+  #foreach ($regularAnimal in $regularAnimals)
+    <a href="/animal/$regularAnimal.getId()" class="thumbnail">
+      <h4>$regularAnimal.getName()</h4>
+      <h4>$regularAnimal.getSightings().size() Reported Sighting(s)</h4>
       <p>Click for details</p>
     </a>
   #end

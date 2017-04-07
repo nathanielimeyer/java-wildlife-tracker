@@ -45,7 +45,7 @@ public class App {
       model.put("sighting", sighting);
       model.put("regularAnimals", RegularAnimal.all());
       String regularAnimal = RegularAnimal.find(animalIdSelected).getName();
-      model.put("regularAnimal", regularAnimal);
+      model.put("animal", regularAnimal);
       model.put("template", "templates/success.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -83,7 +83,7 @@ public class App {
     get("/animal/:id", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       RegularAnimal regularAnimal = RegularAnimal.find(Integer.parseInt(request.params("id")));
-      model.put("regularAnimal", regularAnimal);
+      model.put("animal", regularAnimal);
       model.put("template", "templates/animal.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
