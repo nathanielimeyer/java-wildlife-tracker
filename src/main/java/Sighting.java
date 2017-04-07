@@ -35,6 +35,10 @@ public class Sighting implements DatabaseManagement{
     return ranger_name;
   }
 
+  public Timestamp getTimestamp() {
+    return timestamp_of_sighting;
+  }
+
   @Override
   public boolean equals(Object otherSighting) {
     if(!(otherSighting instanceof Sighting)) {

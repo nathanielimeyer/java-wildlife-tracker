@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.text.DateFormat;
 import java.util.Date;
+import java.sql.Timestamp;
 
 public class SightingTest {
 
@@ -42,6 +43,17 @@ public class SightingTest {
     testAnimal.save();
     Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
     assertTrue(testSighting.getRangerName().equals("Ranger Avery"));
+  }
+
+  @Test
+  public void save_recordsTimestampInDatabase() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    testSighting.save();
+    Timestamp testSightingTimestamp = Sighting.find(testSighting.getId()).getTimestamp();
+    Timestamp rightNow = new Timestamp(new Date().getTime());
+    assertEquals(rightNow.getDay(), testSightingTimestamp.getDay());
   }
 
   @Test

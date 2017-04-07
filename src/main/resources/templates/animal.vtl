@@ -9,6 +9,7 @@
   #foreach($sighting in $animal.getSightings())
     Location: $sighting.getLocation()
     Reported by: $sighting.getRangerName()
-    ID: >$sighting.getId()
+    ID: $sighting.getId()
+    Date of sighting: $sighting.getTimestamp()
   #end
 #end
