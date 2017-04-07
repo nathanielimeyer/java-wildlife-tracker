@@ -3,5 +3,5 @@ public interface DatabaseManagement {
   void save();
   // void update();
   int getId();
-  // void delete();
+  void delete();
 }

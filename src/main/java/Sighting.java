@@ -62,6 +62,15 @@ public class Sighting implements DatabaseManagement{
     }
   }
 
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM sightings WHERE id=:id;";
+      con.createQuery(sql)
+        .addParameter("id", id)
+        .executeUpdate();
+    }
+  }
+
   public static List<Sighting> all() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT * FROM sightings;";

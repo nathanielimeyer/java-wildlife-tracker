@@ -2,14 +2,9 @@ import org.sql2o.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Animal implements DatabaseManagement{
-  private String name;
-  private int id;
-
-  public Animal(String name) {
-    this.name = name;
-    this.id = id;
-  }
+public abstract class Animal {
+  public String name;
+  public int id;
 
   public String getName() {
     return name;
@@ -29,34 +24,6 @@ public class Animal implements DatabaseManagement{
     }
   }
 
-  public void save() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO animals (name, endangered) VALUES (:name, false);";
-      this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
-        .executeUpdate()
-        .getKey();
-    }
-  }
-
-  public static List<Animal> all() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id, name FROM animals WHERE endangered = false;";
-      return con.createQuery(sql)
-        .executeAndFetch(Animal.class);
-    }
-  }
-
-  public static Animal find(int id) {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id, name FROM animals WHERE id=:id;";
-      Animal animal = con.createQuery(sql)
-        .addParameter("id", id)
-        .executeAndFetchFirst(Animal.class);
-      return animal;
-    }
-  }
-
   public void updateName(String name) {
     try(Connection con = DB.sql2o.open()) {
       String sql = "UPDATE animals SET name=:name WHERE id=:id;";
@@ -69,8 +36,12 @@ public class Animal implements DatabaseManagement{
 
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "DELETE FROM animals WHERE id=:id;";
-      con.createQuery(sql)
+      String sightingsSql = "DELETE FROM sightings WHERE animal_id=:animal_id;";
+      con.createQuery(sightingsSql)
+        .addParameter("animal_id", id)
+        .executeUpdate();
+      String animalsSql = "DELETE FROM animals WHERE id=:id;";
+      con.createQuery(animalsSql)
         .addParameter("id", id)
         .executeUpdate();
     }

@@ -2,9 +2,7 @@ import org.sql2o.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EndangeredAnimal implements DatabaseManagement{
-  public String name;
-  public int id;
+public class EndangeredAnimal extends Animal implements DatabaseManagement{
   private String health;
   private String age;
 
@@ -21,14 +19,6 @@ public class EndangeredAnimal implements DatabaseManagement{
 
   public String getAge() {
     return age;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public int getId() {
-    return id;
   }
 
   @Override
@@ -88,16 +78,6 @@ public class EndangeredAnimal implements DatabaseManagement{
         .addParameter("age", age)
         .addParameter("id", id)
         .executeUpdate();
-    }
-  }
-
-  public List<Sighting> getSightings() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM sightings WHERE animal_id=:id;";
-        List<Sighting> sightings = con.createQuery(sql)
-          .addParameter("id", id)
-          .executeAndFetch(Sighting.class);
-      return sightings;
     }
   }
 }
