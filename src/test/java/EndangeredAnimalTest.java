@@ -22,6 +22,18 @@ public class EndangeredAnimalTest {
   }
 
   @Test
+  public void getAge_returnsAgeAttribute_true() {
+    EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
+    assertEquals("Young", testEndangeredAnimal.getAge());
+  }
+
+  @Test
+  public void getName_returnsNameAttribute_true() {
+    EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
+    assertEquals("Fox", testEndangeredAnimal.getName());
+  }
+
+  @Test
   public void save_assignsIdAndSavesObjectToDatabase() {
     EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
     testEndangeredAnimal.save();
@@ -62,6 +74,25 @@ public class EndangeredAnimalTest {
     testEndangeredAnimal.save();
     testEndangeredAnimal.updateAge("Adult");
     assertEquals("Adult", EndangeredAnimal.find(testEndangeredAnimal.getId()).getAge());
+  }
+
+  @Test
+  public void getSightings_returnsAllSightingsOfThisAnimal_true() {
+    EndangeredAnimal firstEndangeredAnimal = new EndangeredAnimal("Gray wolf", "Healthy", "Young");
+    firstEndangeredAnimal.save();
+    Sighting firstSighting = new Sighting (firstEndangeredAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    firstSighting.save();
+    EndangeredAnimal secondTestEndangeredAnimal = new EndangeredAnimal("Loggerhead sea turtle", "Ill", "Old");
+    secondTestEndangeredAnimal.save();
+    Sighting secondTestSighting = new Sighting (secondTestEndangeredAnimal.getId(), "45.472428, -121.946466", "Ranger Reese");
+    secondTestSighting.save();
+    Sighting thirdTestSighting = new Sighting (firstEndangeredAnimal.getId(), "44.472428, -122.946466", "Ranger Reese");
+    thirdTestSighting.save();
+    List<Sighting> wolfSightings = firstEndangeredAnimal.getSightings();
+    List<Sighting> turtleSightings = secondTestEndangeredAnimal.getSightings();
+    assertTrue(wolfSightings.get(0).equals(firstSighting));
+    assertTrue(turtleSightings.get(0).equals(secondTestSighting));
+    assertTrue(wolfSightings.get(1).equals(thirdTestSighting));
   }
 
 }
