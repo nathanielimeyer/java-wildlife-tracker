@@ -21,6 +21,30 @@ public class SightingTest {
   }
 
   @Test
+  public void getAnimalId_returnsAnimalId_int() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    assertEquals(testAnimal.getId(), testSighting.getAnimalId());
+  }
+
+  @Test
+  public void getLocation_returnsLocation_String() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    assertTrue(testSighting.getLocation().equals("45.472428, -121.946466"));
+  }
+
+  @Test
+  public void getRangerName_returnsRangerName_String() {
+    Animal testAnimal = new Animal("Deer");
+    testAnimal.save();
+    Sighting testSighting = new Sighting(testAnimal.getId(), "45.472428, -121.946466", "Ranger Avery");
+    assertTrue(testSighting.getRangerName().equals("Ranger Avery"));
+  }
+
+  @Test
   public void equals_returnsTrueIfLocationAndDescriptionAreSame_true() {
     Animal testAnimal = new Animal("Deer");
     testAnimal.save();
