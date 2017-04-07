@@ -43,8 +43,6 @@ public class RegularAnimalTest {
     RegularAnimal testRegularAnimal = new RegularAnimal("Deer");
     testRegularAnimal.save();
     RegularAnimal savedRegularAnimal = RegularAnimal.all().get(0);
-    System.out.println(savedRegularAnimal.getId());
-    System.out.println(testRegularAnimal.getId());
     assertEquals(testRegularAnimal.getId(), savedRegularAnimal.getId());
   }
 

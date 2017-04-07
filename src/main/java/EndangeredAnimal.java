@@ -5,6 +5,7 @@ import java.util.List;
 public class EndangeredAnimal extends Animal implements DatabaseManagement{
   private String health;
   private String age;
+  private static final int minimum_sightings = 10;
 
   public EndangeredAnimal(String name, String health, String age) {
     this.name = name;
@@ -19,6 +20,10 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement{
 
   public String getAge() {
     return age;
+  }
+
+  public int getMinimumSightings(){
+    return minimum_sightings;
   }
 
   @Override

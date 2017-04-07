@@ -110,4 +110,11 @@ public class EndangeredAnimalTest {
     assertTrue(wolfSightings.get(1).equals(thirdTestSighting));
   }
 
+  @Test
+  public void minimumSightingsConstant() {
+    EndangeredAnimal firstEndangeredAnimal = new EndangeredAnimal("Gray wolf", "Healthy", "Young");
+    firstEndangeredAnimal.save();
+    assertEquals(10, firstEndangeredAnimal.minimum_sightings);
+  }
+
 }
