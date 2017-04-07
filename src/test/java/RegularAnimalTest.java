@@ -29,6 +29,16 @@ public class RegularAnimalTest {
   }
 
   @Test
+  public void alreadyInDB_doesntSaveExistingAnimals_true() {
+    RegularAnimal firstRegularAnimal = new RegularAnimal("Deer");
+    firstRegularAnimal.save();
+    RegularAnimal secondRegularAnimal = new RegularAnimal("Deer");
+    try { secondRegularAnimal.save(); }
+    catch (IllegalArgumentException exception) {}
+    assertEquals(1, RegularAnimal.all().size());
+  }
+
+  @Test
   public void save_assignsIdToObjectAndSavesObjectToDatabase() {
     RegularAnimal testRegularAnimal = new RegularAnimal("Deer");
     testRegularAnimal.save();

@@ -66,13 +66,15 @@ public class App {
         String health = request.queryParams("health");
         String age = request.queryParams("age");
         EndangeredAnimal endangeredAnimal = new EndangeredAnimal(name, health, age);
-        endangeredAnimal.save();
+        try { endangeredAnimal.save(); }
+        catch (IllegalArgumentException exception) {}
         model.put("regularAnimals", RegularAnimal.all());
         model.put("endangeredAnimals", EndangeredAnimal.all());
       } else {
         String name = request.queryParams("name");
         RegularAnimal regularAnimal = new RegularAnimal(name);
-        regularAnimal.save();
+        try { regularAnimal.save(); }
+        catch (IllegalArgumentException exception) {}
         model.put("regularAnimals", RegularAnimal.all());
         model.put("endangeredAnimals", EndangeredAnimal.all());
       }

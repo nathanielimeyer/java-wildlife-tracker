@@ -31,15 +31,32 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement{
     }
   }
 
+  @Override
   public void save() {
+    if (alreadyInDB()) {
+      throw new IllegalArgumentException("That animal is already in the DB.");
+    } else {
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "INSERT INTO animals (name, endangered, health, age) VALUES (:name, true, :health, :age);";
+        this.id = (int) con.createQuery(sql, true)
+          .addParameter("name", this.name)
+          .addParameter("health", this.health)
+          .addParameter("age", this.age)
+          .executeUpdate()
+          .getKey();
+      }
+    }
+  }
+
+  @Override
+  public Boolean alreadyInDB() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO animals (name, endangered, health, age) VALUES (:name, true, :health, :age);";
-      this.id = (int) con.createQuery(sql, true)
+      String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM animals WHERE name LIKE :name AND health LIKE :health AND age LIKE :age) THEN 'true' ELSE 'false' END;";
+      return con.createQuery(sql)
         .addParameter("name", this.name)
         .addParameter("health", this.health)
         .addParameter("age", this.age)
-        .executeUpdate()
-        .getKey();
+        .executeAndFetchFirst(Boolean.class);
     }
   }
 

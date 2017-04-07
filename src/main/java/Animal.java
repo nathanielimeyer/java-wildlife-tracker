@@ -57,4 +57,12 @@ public abstract class Animal {
     }
   }
 
+  public Boolean alreadyInDB() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM animals WHERE name LIKE :name) THEN 'true' ELSE 'false' END;";
+      return con.createQuery(sql)
+        .addParameter("name", this.name)
+        .executeAndFetchFirst(Boolean.class);
+    }
+  }
 }

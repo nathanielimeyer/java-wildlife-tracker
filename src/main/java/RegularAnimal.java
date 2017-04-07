@@ -11,12 +11,16 @@ public class RegularAnimal extends Animal implements DatabaseManagement{
 
   @Override
   public void save() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO animals (name, endangered) VALUES (:name, false);";
-      this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
-        .executeUpdate()
-        .getKey();
+    if (alreadyInDB()) {
+      throw new IllegalArgumentException("That animal is already in the DB.");
+    } else {
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "INSERT INTO animals (name, endangered) VALUES (:name, false);";
+        this.id = (int) con.createQuery(sql, true)
+          .addParameter("name", this.name)
+          .executeUpdate()
+          .getKey();
+      }      
     }
   }
 

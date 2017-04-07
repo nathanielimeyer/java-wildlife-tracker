@@ -28,6 +28,21 @@ public class EndangeredAnimalTest {
   }
 
   @Test
+  public void alreadyInDB_doesntSaveExistingAnimals_true() {
+    EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
+    try { testEndangeredAnimal.save(); }
+    catch (IllegalArgumentException exception) {}
+    EndangeredAnimal secondEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
+    try { secondEndangeredAnimal.save(); }
+    catch (IllegalArgumentException exception) {}
+    assertEquals(1, EndangeredAnimal.all().size());
+    EndangeredAnimal thirdEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Old");
+    try { thirdEndangeredAnimal.save(); }
+    catch (IllegalArgumentException exception) {}
+    assertEquals(2, EndangeredAnimal.all().size());
+  }
+
+  @Test
   public void getName_returnsNameAttribute_true() {
     EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Fox", "Healthy", "Young");
     assertEquals("Fox", testEndangeredAnimal.getName());
