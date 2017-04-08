@@ -67,7 +67,7 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement{
 
   public static List<EndangeredAnimal> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id, name, health, age FROM animals WHERE endangered = true;";
+      String sql = "SELECT id, name, endangered, health, age FROM animals WHERE endangered = true;";
       return con.createQuery(sql)
         .executeAndFetch(EndangeredAnimal.class);
     }
@@ -75,7 +75,7 @@ public class EndangeredAnimal extends Animal implements DatabaseManagement{
 
   public static EndangeredAnimal find(int id) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id, name, health, age FROM animals WHERE id=:id;";
+      String sql = "SELECT id, name, endangered, health, age FROM animals WHERE id=:id;";
       EndangeredAnimal endangeredanimal = con.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetchFirst(EndangeredAnimal.class);

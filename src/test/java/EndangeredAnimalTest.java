@@ -114,7 +114,7 @@ public class EndangeredAnimalTest {
   public void minimumSightingsConstant() {
     EndangeredAnimal firstEndangeredAnimal = new EndangeredAnimal("Gray wolf", "Healthy", "Young");
     firstEndangeredAnimal.save();
-    assertEquals(10, firstEndangeredAnimal.minimum_sightings);
+    assertEquals(10, firstEndangeredAnimal.getMinimumSightings());
   }
 
 }

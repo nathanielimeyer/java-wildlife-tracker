@@ -20,13 +20,13 @@ public class RegularAnimal extends Animal implements DatabaseManagement{
           .addParameter("name", this.name)
           .executeUpdate()
           .getKey();
-      }      
+      }
     }
   }
 
   public static List<RegularAnimal> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id, name FROM animals WHERE endangered = false;";
+      String sql = "SELECT id, name , endangered FROM animals WHERE endangered = false;";
       return con.createQuery(sql)
         .executeAndFetch(RegularAnimal.class);
     }
@@ -34,7 +34,7 @@ public class RegularAnimal extends Animal implements DatabaseManagement{
 
   public static RegularAnimal find(int id) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id, name FROM animals WHERE id=:id;";
+      String sql = "SELECT id, name, endangered FROM animals WHERE id=:id;";
       RegularAnimal animal = con.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetchFirst(RegularAnimal.class);
